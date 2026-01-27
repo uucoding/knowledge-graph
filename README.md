@@ -139,17 +139,9 @@
 ### 快速启动
 
 ```bash
-# 1. 克隆项目
-git clone <repository-url>
-cd knowledge
-
-# 2. 初始化数据库
-mysql -u root -p < sql/init.sql
-
-# 3. 启动后端
-mvn spring-boot:run
-
-# 4. 启动前端
+# 1. 克隆启动项目
+使用idea克隆项目并启动后端
+# 2. 启动前端
 cd knowledge-ui
 pnpm install
 pnpm dev
