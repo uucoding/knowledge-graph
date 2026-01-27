@@ -1,0 +1,145 @@
+# ============================================
+# 知识图谱系统配置文件
+# ============================================
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: knowledge-graph
+
+  # ==================== 文件上传配置 ====================
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  # ==================== MySQL数据库配置 ====================
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/knowledge_graph?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    druid:
+      # 初始化连接池大小
+      initial-size: 5
+      # 最小连接池数量
+      min-idle: 5
+      # 最大连接池数量
+      max-active: 20
+      # 获取连接等待超时时间
+      max-wait: 60000
+      # 检测间隔时间
+      time-between-eviction-runs-millis: 60000
+      # 连接最小生存时间
+      min-evictable-idle-time-millis: 300000
+      # 验证查询SQL
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+  # ==================== Neo4j图数据库配置 ====================
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: neo4j123
+
+  # ==================== Spring AI (Ollama) 配置 ====================
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      # 超时配置（5分钟）
+      init:
+        timeout: 300s
+        pull-model-strategy: never
+      chat:
+        model: deepseek-r1:1.5b
+        options:
+          temperature: 0.7
+          num-predict: 2048
+      embedding:
+        model: nomic-embed-text
+        options:
+          timeout: 300
+
+# ==================== MyBatis-Plus配置 ====================
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.uka.knowledge.model.entity
+  global-config:
+    db-config:
+      # 主键策略：雪花算法
+      id-type: ASSIGN_ID
+      # 逻辑删除字段
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      # 表名前缀
+      table-prefix: kg_
+  configuration:
+    # 驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# ==================== Milvus向量数据库配置 ====================
+milvus:
+  host: localhost
+  port: 19530
+  # 集合名称
+  collection-name: knowledge_vectors
+  # 向量维度（与embedding模型输出维度一致）
+  dimension: 768
+  # 索引类型
+  index-type: IVF_FLAT
+  # 度量类型
+  metric-type: COSINE
+
+# ==================== OCR配置 ====================
+ocr:
+  # Tesseract数据目录（需要下载语言包）
+  data-path: /opt/homebrew/share/tessdata
+  # 默认语言（chi_sim=简体中文, eng=英文）
+  language: chi_sim+eng
+
+# ==================== 文件存储配置 ====================
+file:
+  # 文件上传目录
+  upload-path: ./uploads
+  # 允许的文件类型
+  allowed-types: pdf,doc,docx,txt,md,png,jpg,jpeg,gif,bmp
+
+# ==================== Knife4j接口文档配置 ====================
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '知识图谱API'
+      paths-to-match: '/**'
+      packages-to-scan: com.uka.knowledge.controller
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+
+# ==================== 日志配置 ====================
+logging:
+  level:
+    root: INFO
+    com.uka.knowledge: DEBUG
+    org.neo4j: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
