@@ -339,7 +339,7 @@ A: 检查文件格式是否支持，文件是否损坏。大文件建议增加 J
 ### Q: RAG 检索不到内容
 A: 确保文档已完成解析（状态为"已完成"），且 Milvus 服务正常运行。
 ## 联系沟通
-<img src="imgs/img.png" style="zoom:20%;" />
+<img width=160 src="imgs/img.png" />
 
 ## License
 
