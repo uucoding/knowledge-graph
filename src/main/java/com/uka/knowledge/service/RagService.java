@@ -57,9 +57,8 @@ public interface RagService {
      * 构建RAG上下文提示词
      *
      * @param documents 相关文档
-     * @param nodes 相关节点
      * @param userQuery 用户问题
      * @return 完整的提示词
      */
-    String buildContextPrompt(List<RagDocument> documents, List<RagNode> nodes, String userQuery);
+    String buildContextPrompt(List<RagDocument> documents, String userQuery);
 }

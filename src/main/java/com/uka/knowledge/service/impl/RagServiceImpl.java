@@ -40,6 +40,21 @@ public class RagServiceImpl implements RagService {
     private final KnowledgeRelationMapper relationMapper;
     private final DocumentChunkMapper documentChunkMapper;
 
+    private static final String PROMPT_TEMPLATE = """
+        你是一个精准的文档问答助手。你的任务是根据提供的参考内容回答用户问题。
+
+        【重要规则】
+        1. 只能使用下方"参考内容"中的信息来回答问题
+        2. 如果参考内容中没有相关信息，必须明确回答："根据已上传的文档，未找到与此问题相关的信息。"
+        3. 回答时在末尾标注信息来源，格式：[来源：文档名, 第X页]
+        4. 禁止编造、推测或使用参考内容之外的知识
+        5. 保持回答简洁准确，直接回答问题
+
+        【参考内容】
+        %s
+
+        请根据以上参考内容回答用户的问题。""";
+
     /**
      * 执行RAG检索
      */
@@ -52,8 +67,7 @@ public class RagServiceImpl implements RagService {
         List<RagNode> nodes = searchNodes(query, topK);
 
         // 构建上下文提示词
-        String contextPrompt = buildContextPrompt(documents, nodes, query);
-
+        String contextPrompt = buildContextPrompt(documents, query);
         return new RagResult(documents, nodes, contextPrompt);
     }
 
@@ -95,11 +109,7 @@ public class RagServiceImpl implements RagService {
                     ragDoc.setScore((double) result.score());
 
                     // 使用分块内容作为匹配片段
-                    String content = chunk.getContent();
-                    if (StrUtil.isNotBlank(content)) {
-                        ragDoc.setMatchedContent(content.length() > 500 ?
-                                content.substring(0, 500) + "..." : content);
-                    }
+                    ragDoc.setMatchedContent(chunk.getContent());
 
                     results.add(ragDoc);
                 } catch (Exception e) {
@@ -195,10 +205,8 @@ public class RagServiceImpl implements RagService {
      * 构建RAG上下文提示词
      */
     @Override
-    public String buildContextPrompt(List<RagDocument> documents, List<RagNode> nodes, String userQuery) {
+    public String buildContextPrompt(List<RagDocument> documents, String userQuery) {
         StringBuilder prompt = new StringBuilder();
-
-        prompt.append("你是一个知识图谱问答助手。请根据以下参考资料回答用户问题。\n\n");
 
         // 添加相关文档
         if (documents != null && !documents.isEmpty()) {
@@ -223,32 +231,6 @@ public class RagServiceImpl implements RagService {
             prompt.append("\n");
         }
 
-        // 添加相关知识实体
-        if (nodes != null && !nodes.isEmpty()) {
-            prompt.append("【相关知识实体】\n");
-            for (RagNode node : nodes) {
-                prompt.append(String.format("- %s(%s): %s\n",
-                        node.getName(),
-                        node.getNodeType(),
-                        StrUtil.isNotBlank(node.getDescription()) ? node.getDescription() : "无描述"));
-
-                // 添加关联关系
-                if (node.getRelations() != null && !node.getRelations().isEmpty()) {
-                    for (RagNode.RagRelation rel : node.getRelations()) {
-                        prompt.append(String.format("  → %s %s\n", rel.getName(), rel.getTargetNodeName()));
-                    }
-                }
-            }
-            prompt.append("\n");
-        }
-
-        // 添加用户问题
-        prompt.append("【用户问题】\n");
-        prompt.append(userQuery);
-        prompt.append("\n\n");
-
-        prompt.append("请基于上述资料回答。如果资料中没有相关信息，请如实说明。");
-
-        return prompt.toString();
+        return PROMPT_TEMPLATE.formatted(prompt.toString()) + "\n\n【用户问题】\n" + userQuery;
     }
 }
