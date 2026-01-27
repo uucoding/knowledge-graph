@@ -1,3 +1,7 @@
+## 欢迎技术交流
+
+<img width=160 src="imgs/img.png" />
+
 # Knowledge Graph System (知识图谱系统)
 
 基于 Spring Boot3 + SpringAI + Milvus + Neo4j + Tesseract + Vue3 + Element Plus 的本地大模型智能知识图谱管理系统，集成 RAG 检索增强、AI 对话、文档解析、OCR 识别等功能。
@@ -338,8 +342,6 @@ A: 检查文件格式是否支持，文件是否损坏。大文件建议增加 J
 
 ### Q: RAG 检索不到内容
 A: 确保文档已完成解析（状态为"已完成"），且 Milvus 服务正常运行。
-## 联系沟通
-<img width=160 src="imgs/img.png" />
 
 ## License
 
