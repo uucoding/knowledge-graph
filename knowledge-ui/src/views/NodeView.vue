@@ -12,7 +12,7 @@
           @keyup.enter="handleSearch"
         />
         <el-select v-model="searchForm.nodeType" placeholder="节点类型" clearable style="width: 150px">
-          <el-option v-for="type in nodeTypes" :key="type" :label="type" :value="type" />
+          <el-option v-for="type in nodeTypes" :key="type.value" :label="type.label" :value="type.value" />
         </el-select>
         <el-button type="primary" @click="handleSearch">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
@@ -29,7 +29,7 @@
         <el-table-column prop="name" label="节点名称" min-width="150" />
         <el-table-column prop="nodeType" label="类型" width="120">
           <template #default="{ row }">
-            <el-tag>{{ row.nodeType }}</el-tag>
+            <el-tag>{{ getNodeTypeLabel(row.nodeType) }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="description" label="描述" min-width="200" show-overflow-tooltip />
@@ -74,11 +74,11 @@
     >
       <el-form ref="formRef" :model="nodeForm" :rules="formRules" label-width="100px">
         <el-form-item label="节点名称" prop="name">
-          <el-input v-model="nodeForm.name" placeholder="请输入节点名称" />
+          <el-input v-model="nodeForm.name" placeholder="如：阿里巴巴、张三、人工智能、北京" />
         </el-form-item>
         <el-form-item label="节点类型" prop="nodeType">
           <el-select v-model="nodeForm.nodeType" placeholder="选择或输入类型" filterable allow-create>
-            <el-option v-for="type in nodeTypes" :key="type" :label="type" :value="type" />
+            <el-option v-for="type in nodeTypes" :key="type.value" :label="type.label" :value="type.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="节点描述" prop="description">
@@ -86,7 +86,7 @@
             v-model="nodeForm.description"
             type="textarea"
             :rows="4"
-            placeholder="请输入节点描述"
+            placeholder="如：阿里巴巴集团是一家全球领先的互联网科技公司，于1999年创立"
           />
         </el-form-item>
         <el-form-item label="扩展属性" prop="properties">
@@ -94,7 +94,7 @@
             v-model="nodeForm.properties"
             type="textarea"
             :rows="3"
-            placeholder='请输入JSON格式的属性，如：{"key": "value"}'
+            placeholder='如：{"founded": "1999", "headquarters": "杭州", "industry": "互联网"}'
           />
         </el-form-item>
       </el-form>
@@ -170,20 +170,37 @@ const loadNodeList = async () => {
   }
 }
 
+// 默认节点类型（中英文映射）
+const defaultNodeTypes = [
+  { label: '人物', value: 'Person' },
+  { label: '组织/公司', value: 'Organization' },
+  { label: '地点', value: 'Location' },
+  { label: '概念', value: 'Concept' },
+  { label: '事件', value: 'Event' },
+  { label: '技术', value: 'Technology' },
+  { label: '产品', value: 'Product' },
+  { label: '时间', value: 'Time' },
+  { label: '其他', value: 'Other' }
+]
+
 // 加载节点类型
 const loadNodeTypes = async () => {
   try {
     const res = await nodeApi.getTypes()
-    nodeTypes.value = res.data || []
-    // 添加默认类型
-    const defaultTypes = ['Person', 'Organization', 'Location', 'Concept', 'Event', 'Technology', 'Product']
-    defaultTypes.forEach(type => {
-      if (!nodeTypes.value.includes(type)) {
-        nodeTypes.value.push(type)
+    const existingTypes = res.data || []
+    // 合并默认类型和已有类型
+    const typeSet = new Set(defaultNodeTypes.map(t => t.value))
+    const mergedTypes = [...defaultNodeTypes]
+    existingTypes.forEach(type => {
+      if (!typeSet.has(type)) {
+        // 未知类型直接显示英文
+        mergedTypes.push({ label: type, value: type })
       }
     })
+    nodeTypes.value = mergedTypes
   } catch (error) {
     console.error('加载节点类型失败:', error)
+    nodeTypes.value = defaultNodeTypes
   }
 }
 
@@ -273,6 +290,12 @@ const handleDelete = async (row) => {
 // 在图谱中查看
 const viewInGraph = (row) => {
   router.push({ path: '/', query: { keyword: row.name } })
+}
+
+// 获取节点类型中文标签
+const getNodeTypeLabel = (typeValue) => {
+  const found = defaultNodeTypes.find(t => t.value === typeValue)
+  return found ? found.label : typeValue
 }
 
 // 初始化

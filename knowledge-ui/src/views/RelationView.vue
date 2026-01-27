@@ -5,7 +5,7 @@
       <div class="toolbar">
         <el-input v-model="searchForm.keyword" placeholder="搜索关系名称..." style="width: 250px" clearable />
         <el-select v-model="searchForm.relationType" placeholder="关系类型" clearable style="width: 150px">
-          <el-option v-for="type in relationTypes" :key="type" :label="type" :value="type" />
+          <el-option v-for="type in relationTypes" :key="type.value" :label="type.label" :value="type.value" />
         </el-select>
         <el-button type="primary" @click="handleSearch">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
@@ -22,7 +22,7 @@
         <el-table-column prop="name" label="关系名称" width="120" />
         <el-table-column prop="relationType" label="类型" width="120">
           <template #default="{ row }">
-            <el-tag type="info">{{ row.relationType }}</el-tag>
+            <el-tag type="info">{{ getRelationTypeLabel(row.relationType) }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="起始节点" min-width="150">
@@ -62,17 +62,17 @@
     <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑关系' : '新建关系'" width="600px" @close="resetForm">
       <el-form ref="formRef" :model="relationForm" :rules="formRules" label-width="100px">
         <el-form-item label="关系名称" prop="name">
-          <el-input v-model="relationForm.name" placeholder="如：属于、创建、包含" />
+          <el-input v-model="relationForm.name" placeholder="如：创立、任职于、位于、发明" />
         </el-form-item>
         <el-form-item label="关系类型" prop="relationType">
           <el-select v-model="relationForm.relationType" placeholder="选择或输入类型" filterable allow-create>
-            <el-option v-for="type in relationTypes" :key="type" :label="type" :value="type" />
+            <el-option v-for="type in relationTypes" :key="type.value" :label="type.label" :value="type.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="起始节点" prop="sourceNodeId">
           <el-select
             v-model="relationForm.sourceNodeId"
-            placeholder="搜索并选择节点"
+            placeholder="输入关键词搜索节点，如：法外狂徒"
             filterable
             remote
             :remote-method="searchNodes"
@@ -89,7 +89,7 @@
         <el-form-item label="目标节点" prop="targetNodeId">
           <el-select
             v-model="relationForm.targetNodeId"
-            placeholder="搜索并选择节点"
+            placeholder="输入关键词搜索节点，如：张三"
             filterable
             remote
             :remote-method="searchNodes"
@@ -125,10 +125,23 @@ const loading = ref(false)
 const submitting = ref(false)
 const nodeSearching = ref(false)
 const relationList = ref([])
-const relationTypes = ref(['BELONGS_TO', 'PART_OF', 'LOCATED_IN', 'WORKS_FOR', 'CREATED_BY', 'RELATED_TO'])
 const nodeOptions = ref([])
 const dialogVisible = ref(false)
 const isEdit = ref(false)
+
+// 默认关系类型（中英文映射）
+const defaultRelationTypes = [
+  { label: '属于', value: 'BELONGS_TO' },
+  { label: '包含/组成', value: 'PART_OF' },
+  { label: '位于', value: 'LOCATED_IN' },
+  { label: '任职于', value: 'WORKS_FOR' },
+  { label: '创建/发明', value: 'CREATED_BY' },
+  { label: '相关', value: 'RELATED_TO' },
+  { label: '发生于', value: 'HAPPENED_AT' },
+  { label: '使用', value: 'USED_BY' },
+  { label: '影响', value: 'INFLUENCED_BY' }
+]
+const relationTypes = ref([...defaultRelationTypes])
 
 // 搜索表单
 const searchForm = reactive({ keyword: '', relationType: '' })
@@ -177,12 +190,27 @@ const loadRelationList = async () => {
 const loadRelationTypes = async () => {
   try {
     const res = await relationApi.getTypes()
-    if (res.data && res.data.length > 0) {
-      relationTypes.value = [...new Set([...relationTypes.value, ...res.data])]
-    }
+    const existingTypes = res.data || []
+    // 合并默认类型和已有类型
+    const typeSet = new Set(defaultRelationTypes.map(t => t.value))
+    const mergedTypes = [...defaultRelationTypes]
+    existingTypes.forEach(type => {
+      if (!typeSet.has(type)) {
+        // 未知类型直接显示英文
+        mergedTypes.push({ label: type, value: type })
+      }
+    })
+    relationTypes.value = mergedTypes
   } catch (error) {
     console.error('加载关系类型失败:', error)
+    relationTypes.value = [...defaultRelationTypes]
   }
+}
+
+// 获取关系类型中文标签
+const getRelationTypeLabel = (typeValue) => {
+  const found = defaultRelationTypes.find(t => t.value === typeValue)
+  return found ? found.label : typeValue
 }
 
 // 搜索节点
