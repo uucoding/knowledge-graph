@@ -108,6 +108,8 @@ ocr:
   data-path: /opt/homebrew/share/tessdata
   # 默认语言（chi_sim=简体中文, eng=英文）
   language: chi_sim+eng
+  # Tesseract库文件位置
+  library-file: /opt/homebrew/lib
 
 # ==================== 文件存储配置 ====================
 file:

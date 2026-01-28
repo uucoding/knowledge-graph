@@ -19,6 +19,11 @@ import org.springframework.context.annotation.Configuration;
 public class OcrConfig {
 
     /**
+     * Tesseract 库文件地址
+     */
+    private String libraryFile = "/opt/homebrew/lib";
+
+    /**
      * Tesseract数据目录路径
      * 需要包含语言训练数据文件（如chi_sim.traineddata）
      */
