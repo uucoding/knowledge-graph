@@ -25,6 +25,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -58,6 +60,7 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
     private final OllamaService ollamaService;
     private final VectorService vectorService;
     private final KnowledgeExtractService knowledgeExtractService;
+    private final AsyncService asyncService;
 
     /**
      * 支持的图片类型
@@ -92,26 +95,23 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
 
         // 保存到数据库
         this.save(record);
+        // 事务之后执行
+        if (TransactionSynchronizationManager.isActualTransactionActive()) {
+            TransactionSynchronizationManager.registerSynchronization(
+                    new TransactionSynchronization() {
+                        @Override
+                        public void afterCommit() {
+                            // 事务提交后执行
 
-        // 异步进行OCR识别
-        asyncRecognize(record.getId());
-
+                            // 异步进行OCR识别
+                            asyncService.asyncRecognize(record.getId());
+                        }
+                    }
+            );
+        }
         return record;
     }
 
-    /**
-     * 异步进行OCR识别
-     *
-     * @param recordId 记录ID
-     */
-    @Async
-    public void asyncRecognize(Long recordId) {
-        try {
-            recognizeImage(recordId);
-        } catch (Exception e) {
-            log.error("异步OCR识别失败, recordId={}", recordId, e);
-        }
-    }
 
     /**
      * 对指定图片进行OCR识别
@@ -291,9 +291,8 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
      */
     private String performOcr(String imagePath) {
         try {
-            System.setProperty("jna.library.path", "/opt/homebrew/lib");
-            System.load("/opt/homebrew/lib/libtesseract.dylib");
-
+            // 加载库文件
+            System.setProperty("jna.library.path", ocrConfig.getLibraryFile());
             // 创建Tesseract实例
             Tesseract tesseract = new Tesseract();
             tesseract.setDatapath(ocrConfig.getDataPath());

@@ -1,6 +1,7 @@
 package com.uka.knowledge.service.impl;
 
 import com.uka.knowledge.service.DocumentService;
+import com.uka.knowledge.service.OcrService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
@@ -17,15 +18,18 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class AsyncDocumentService {
+public class AsyncService {
 
     private final DocumentService documentService;
 
+    private final OcrService ocrService;
+
     /**
-     * 使用@Lazy解决与DocumentService的循环依赖问题
+     * 使用@Lazy解决循环依赖问题
      */
-    public AsyncDocumentService(@Lazy DocumentService documentService) {
+    public AsyncService(@Lazy DocumentService documentService, @Lazy OcrService ocrService) {
         this.documentService = documentService;
+        this.ocrService = ocrService;
     }
 
     /**
@@ -41,6 +45,21 @@ public class AsyncDocumentService {
             log.info("异步解析文档完成, documentId={}", documentId);
         } catch (Exception e) {
             log.error("异步解析文档失败, documentId={}", documentId, e);
+        }
+    }
+
+
+    /**
+     * 异步进行OCR识别
+     *
+     * @param recordId 记录ID
+     */
+    @Async
+    public void asyncRecognize(Long recordId) {
+        try {
+            ocrService.recognizeImage(recordId);
+        } catch (Exception e) {
+            log.error("异步OCR识别失败, recordId={}", recordId, e);
         }
     }
 }

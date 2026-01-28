@@ -27,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -58,7 +60,7 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
     private final KnowledgeExtractService knowledgeExtractService;
     private final KnowledgeNodeMapper knowledgeNodeMapper;
     private final KnowledgeNodeService knowledgeNodeService;
-    private final AsyncDocumentService asyncDocumentService;
+    private final AsyncService asyncDocumentService;
     private final DocumentChunkMapper documentChunkMapper;
 
     /**
@@ -88,10 +90,19 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
 
         // 保存到数据库
         this.save(document);
-
-        // 异步解析文档（通过独立的AsyncDocumentService调用，避免同类调用@Async失效）
-        asyncDocumentService.asyncParseDocument(document.getId());
-
+        // 事务之后执行
+        if (TransactionSynchronizationManager.isActualTransactionActive()) {
+            TransactionSynchronizationManager.registerSynchronization(
+                new TransactionSynchronization() {
+                     @Override
+                     public void afterCommit() {
+                         // 事务提交后执行
+                         // 异步解析文档（通过独立的AsyncDocumentService调用，避免同类调用@Async失效）
+                         asyncDocumentService.asyncParseDocument(document.getId());
+                     }
+                }
+            );
+        }
         return document;
     }
 
