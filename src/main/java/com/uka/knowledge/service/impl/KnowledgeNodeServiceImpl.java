@@ -86,7 +86,7 @@ public class KnowledgeNodeServiceImpl extends ServiceImpl<KnowledgeNodeMapper, K
         // 生成向量并存储
         String textForEmbedding = node.getName() + " " + node.getDescription();
         float[] vector = ollamaService.generateEmbedding(textForEmbedding);
-        String vectorId = vectorService.insertVector(node.getId(), vector, "node");
+        String vectorId = vectorService.insertVector(new VectorService.VectorInsertData(node.getId(), vector, "node"));
         node.setVectorId(vectorId);
 
         // 更新MySQL记录
@@ -149,7 +149,7 @@ public class KnowledgeNodeServiceImpl extends ServiceImpl<KnowledgeNodeMapper, K
         }
         String textForEmbedding = node.getName() + " " + node.getDescription();
         float[] vector = ollamaService.generateEmbedding(textForEmbedding);
-        String vectorId = vectorService.insertVector(node.getId(), vector, "node");
+        String vectorId = vectorService.insertVector(new VectorService.VectorInsertData(node.getId(), vector, "node"));
         node.setVectorId(vectorId);
         this.updateById(node);
 

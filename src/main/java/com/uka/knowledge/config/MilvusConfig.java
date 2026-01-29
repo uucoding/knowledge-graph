@@ -1,9 +1,8 @@
 package com.uka.knowledge.config;
 
-import io.milvus.client.MilvusServiceClient;
-import io.milvus.param.ConnectParam;
-import io.milvus.param.IndexType;
-import io.milvus.param.MetricType;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +25,7 @@ public class MilvusConfig {
     /**
      * Milvus服务器地址
      */
-    private String host = "localhost";
-
-    /**
-     * Milvus服务器端口
-     */
-    private Integer port = 19530;
+    private String uri = "http://localhost:19530";
 
     /**
      * 集合名称
@@ -56,18 +50,17 @@ public class MilvusConfig {
     /**
      * 创建Milvus客户端Bean
      *
-     * @return MilvusServiceClient实例
+     * @return MilvusClientV2实例
      */
     @Bean
-    public MilvusServiceClient milvusServiceClient() {
-        // 构建连接参数
-        ConnectParam connectParam = ConnectParam.newBuilder()
-                .withHost(host)
-                .withPort(port)
+    public MilvusClientV2 milvusClient() {
+        // 1、创建连接参数
+        ConnectConfig connectConfig = ConnectConfig
+                .builder()
+                .uri(uri)
                 .build();
-
-        // 创建并返回Milvus客户端
-        return new MilvusServiceClient(connectParam);
+        // 2、创建客户端
+        return new MilvusClientV2(connectConfig);
     }
 
     /**
@@ -75,8 +68,8 @@ public class MilvusConfig {
      *
      * @return IndexType枚举值
      */
-    public IndexType getIndexTypeEnum() {
-        return IndexType.valueOf(indexType);
+    public IndexParam.IndexType getIndexTypeEnum() {
+        return IndexParam.IndexType.valueOf(indexType);
     }
 
     /**
@@ -84,7 +77,7 @@ public class MilvusConfig {
      *
      * @return MetricType枚举值
      */
-    public MetricType getMetricTypeEnum() {
-        return MetricType.valueOf(metricType);
+    public IndexParam.MetricType getMetricTypeEnum() {
+        return IndexParam.MetricType.valueOf(metricType);
     }
 }

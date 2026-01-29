@@ -136,7 +136,7 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
             // 生成向量并存储
             if (StrUtil.isNotBlank(ocrText)) {
                 float[] vector = ollamaService.generateEmbedding(ocrText);
-                String vectorId = vectorService.insertVector(record.getId(), vector, "ocr");
+                String vectorId = vectorService.insertVector(new VectorService.VectorInsertData(record.getId(), vector, "ocr"));
                 record.setVectorId(vectorId);
 
                 // 自动抽取知识并构建图谱

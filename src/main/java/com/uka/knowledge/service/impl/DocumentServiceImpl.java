@@ -153,7 +153,7 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
                 documentChunkMapper.insert(chunk);
 
                 // 存储向量（使用chunk类型，ID为chunk的ID）
-                String vectorId = vectorService.insertVector(chunk.getId(), vector, "chunk");
+                String vectorId = vectorService.insertVector(new VectorService.VectorInsertData(chunk.getId(), vector, "chunk"));
                 chunk.setVectorId(vectorId);
                 documentChunkMapper.updateById(chunk);
             }

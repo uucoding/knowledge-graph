@@ -26,15 +26,15 @@
 ## 技术栈
 
 ### 后端
-| 技术 | 版本 | 说明 |
-|------|------|------|
+| 技术 | 版本    | 说明 |
+|------|-------|------|
 | Spring Boot | 3.2.5 | 基础框架 |
 | Spring AI | 1.1.2 | AI 模型集成 |
 | MyBatis-Plus | 3.5.5 | ORM 框架 |
-| Neo4j | 5.x | 图数据库 |
-| Milvus | 2.3.x | 向量数据库 |
-| MySQL | 8.x | 关系型数据库 |
-| Tesseract | 5.x | OCR 引擎 |
+| Neo4j | 5.x   | 图数据库 |
+| Milvus | 2.6.12 | 向量数据库 |
+| MySQL | 8.x   | 关系型数据库 |
+| Tesseract | 5.x   | OCR 引擎 |
 | Apache PDFBox | 3.0.1 | PDF 解析 |
 | Apache POI | 5.2.5 | Office 文档解析 |
 

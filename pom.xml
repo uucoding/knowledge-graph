@@ -28,9 +28,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- 依赖版本管理 -->
-        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+<!--        <mybatis-plus.version>3.5.15</mybatis-plus.version>-->
         <spring-ai.version>1.1.2</spring-ai.version>
-        <milvus-sdk.version>2.3.4</milvus-sdk.version>
+        <milvus-sdk.version>2.6.12</milvus-sdk.version>
         <neo4j.version>5.18.0</neo4j.version>
         <tika.version>2.9.1</tika.version>
         <tesseract.version>5.3.3</tesseract.version>
@@ -87,6 +87,11 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
 

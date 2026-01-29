@@ -22,22 +22,18 @@ public interface VectorService {
     /**
      * 插入向量数据
      *
-     * @param id     业务ID
-     * @param vector 向量数据
-     * @param type   数据类型（document/ocr/node）
+     * @param vectorInsertData
      * @return 向量ID
      */
-    String insertVector(Long id, float[] vector, String type);
+    String insertVector(VectorInsertData vectorInsertData);
 
     /**
      * 批量插入向量数据
      *
-     * @param ids     业务ID列表
-     * @param vectors 向量数据列表
-     * @param type    数据类型
+     * @param vectorInsertDataList
      * @return 向量ID列表
      */
-    List<String> insertVectors(List<Long> ids, List<float[]> vectors, String type);
+    List<String> insertVectors(List<VectorInsertData>  vectorInsertDataList);
 
     /**
      * 删除向量
@@ -64,5 +60,13 @@ public interface VectorService {
             Long id,
             String type,
             float score
+    ) {}
+    /**
+     * 向量存储封装类
+     */
+    record VectorInsertData(
+            Long businessId, // 业务ID
+            float[] vector, // 向量数据
+            String type // 数据类型（document/ocr/node）
     ) {}
 }
