@@ -65,7 +65,7 @@ spring:
           temperature: 0.7
           num-predict: 2048
       embedding:
-        model: nomic-embed-text
+        model: bge-m3
         options:
           timeout: 300
 
@@ -95,7 +95,7 @@ milvus:
   # 集合名称
   collection-name: knowledge_vectors
   # 向量维度（与embedding模型输出维度一致）
-  dimension: 768
+  dimension: 1024
   # 索引类型
   index-type: IVF_FLAT
   # 度量类型
