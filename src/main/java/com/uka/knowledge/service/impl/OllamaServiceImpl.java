@@ -183,7 +183,7 @@ public class OllamaServiceImpl implements OllamaService {
     public float[] generateEmbedding(String text) {
         if (StrUtil.isBlank(text)) {
             // 返回零向量
-            return new float[768];
+            return new float[1024];
         }
 
         try {
@@ -191,7 +191,7 @@ public class OllamaServiceImpl implements OllamaService {
         } catch (Exception e) {
             log.error("向量生成失败", e);
             // 返回零向量，避免程序中断
-            return new float[768];
+            return new float[1024];
         }
     }
 

@@ -35,7 +35,7 @@ public class MilvusConfig {
     /**
      * 向量维度
      */
-    private Integer dimension = 768;
+    private Integer dimension = 1024;
 
     /**
      * 索引类型
