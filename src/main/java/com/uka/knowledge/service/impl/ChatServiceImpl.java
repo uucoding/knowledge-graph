@@ -22,6 +22,8 @@ import com.uka.knowledge.service.RagService;
 import com.uka.knowledge.util.DocumentParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +68,24 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
     private final RagService ragService;
     private final DocumentParser documentParser;
     private final FileConfig fileConfig;
+
+
+    private static final String PROMPT_TEMPLATE = """
+    你是一个专业的知识问答助手。请根据以下信息回答用户问题。
+    【重要规则】
+    1. 将文档内容和知识图谱信息整合成一个完整、连贯的答案
+    2. 不要分别列举各个来源的内容，而是综合所有信息给出统一的回答
+    3. 回答要准确、简洁、条理清晰
+    4. 使用自然流畅的语言
+    
+    【文档内容】
+    %s
+    
+    【知识图谱】
+    %s
+    
+    【用户问题】%s
+    """;
 
     /**
      * 用于SSE流式响应的线程池
@@ -287,14 +307,16 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
 
         // 执行RAG检索
         RagService.RagResult ragResult = null;
-        String prompt = userMessage;
+        String ragPrompt = "";
 
         if (enableRag) {
             ragResult = ragService.search(userMessage, 5);
             if (ragResult != null && StrUtil.isNotBlank(ragResult.contextPrompt())) {
-                prompt = ragResult.contextPrompt();
+                ragPrompt = ragResult.contextPrompt();
             }
         }
+        String prompt = PROMPT_TEMPLATE.formatted(ragPrompt, (ragResult.nodes() != null ? JSON.toJSONString(ragResult.nodes()) : "无信息"), userMessage);
+
 
         // 添加附件上下文
         if (StrUtil.isNotBlank(attachmentContext)) {
@@ -307,6 +329,8 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
         if (StrUtil.isNotBlank(historyContext)) {
             prompt = historyContext + "\n\n" + prompt;
         }
+
+        prompt +=  "\n\n请给出整合后的完整回答";
 
         // 保存用户消息
         ChatMessage userMsg = new ChatMessage();
@@ -680,4 +704,5 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
         BeanUtils.copyProperties(attachment, vo);
         return vo;
     }
+
 }

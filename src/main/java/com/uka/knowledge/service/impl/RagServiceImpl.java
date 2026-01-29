@@ -40,21 +40,6 @@ public class RagServiceImpl implements RagService {
     private final KnowledgeRelationMapper relationMapper;
     private final DocumentChunkMapper documentChunkMapper;
 
-    private static final String PROMPT_TEMPLATE = """
-        你是一个精准的文档问答助手。你的任务是根据提供的参考内容回答用户问题。
-
-        【重要规则】
-        1. 只能使用下方"参考内容"中的信息来回答问题
-        2. 如果参考内容中没有相关信息，必须明确回答："根据已上传的文档，未找到与此问题相关的信息。"
-        3. 回答时在末尾标注信息来源，格式：[来源：文档名, 第X页]
-        4. 禁止编造、推测或使用参考内容之外的知识
-        5. 保持回答简洁准确，直接回答问题
-
-        【参考内容】
-        %s
-
-        请根据以上参考内容回答用户的问题。""";
-
     /**
      * 执行RAG检索
      */
@@ -210,10 +195,10 @@ public class RagServiceImpl implements RagService {
 
         // 添加相关文档
         if (documents != null && !documents.isEmpty()) {
-            prompt.append("【相关文档】\n");
+            prompt.append("\n");
             for (int i = 0; i < documents.size(); i++) {
                 RagDocument doc = documents.get(i);
-                prompt.append(String.format("- 文档%d「%s」", i + 1, doc.getName()));
+                prompt.append(String.format("- 文档%d名称「%s」", i + 1, doc.getName()));
 
                 // 添加页码信息
                 if (doc.getPageNum() != null && doc.getPageNum() > 0) {
@@ -231,6 +216,6 @@ public class RagServiceImpl implements RagService {
             prompt.append("\n");
         }
 
-        return PROMPT_TEMPLATE.formatted(prompt.toString()) + "\n\n【用户问题】\n" + userQuery;
+        return prompt.toString();
     }
 }
