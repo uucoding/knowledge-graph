@@ -72,8 +72,8 @@
     </el-card>
 
     <!-- 详情弹窗 -->
-    <el-dialog v-model="detailDialogVisible" title="文档详情" width="700px">
-      <el-descriptions :column="2" border v-if="currentDocument">
+    <el-dialog v-model="detailDialogVisible" title="文档详情" width="80%">
+      <el-descriptions :column="2" border v-if="currentDocument" label-width="120px">
         <el-descriptions-item label="文档名称" :span="2">{{ currentDocument.name }}</el-descriptions-item>
         <el-descriptions-item label="原始文件名">{{ currentDocument.originalName }}</el-descriptions-item>
         <el-descriptions-item label="文件类型">{{ currentDocument.fileType }}</el-descriptions-item>
@@ -83,7 +83,11 @@
         </el-descriptions-item>
         <el-descriptions-item label="创建时间">{{ currentDocument.createTime }}</el-descriptions-item>
         <el-descriptions-item label="更新时间">{{ currentDocument.updateTime }}</el-descriptions-item>
-        <el-descriptions-item label="摘要" :span="2">{{ currentDocument.summary || '暂无' }}</el-descriptions-item>
+        <el-descriptions-item label="摘要" :span="2">
+          <el-scrollbar height="120px">
+            <div v-html="renderMarkdown(currentDocument.summary || '暂无')"></div>
+          </el-scrollbar>
+        </el-descriptions-item>
         <el-descriptions-item label="错误信息" :span="2" v-if="currentDocument.errorMsg">
           <el-text type="danger">{{ currentDocument.errorMsg }}</el-text>
         </el-descriptions-item>
@@ -103,6 +107,31 @@ import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { documentApi } from '@/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
+
+// Markdown渲染器
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+            hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+            '</code></pre>'
+      } catch (__) {}
+    }
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
+  }
+})
+
+// 渲染Markdown
+const renderMarkdown = (content) => {
+  if (!content) return ''
+  return md.render(content)
+}
 
 const route = useRoute()
 const loading = ref(false)

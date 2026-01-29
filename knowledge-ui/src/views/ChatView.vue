@@ -220,7 +220,6 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, MoreFilled, User, ChatDotRound, Document, Loading, Paperclip, Promotion, Connection, Right, VideoPause, Folder } from '@element-plus/icons-vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
 import * as echarts from 'echarts'
 
 const router = useRouter()
