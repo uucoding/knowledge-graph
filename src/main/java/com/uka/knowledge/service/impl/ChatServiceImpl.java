@@ -1,6 +1,5 @@
 package com.uka.knowledge.service.impl;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
@@ -20,6 +19,7 @@ import com.uka.knowledge.service.ChatService;
 import com.uka.knowledge.service.OllamaService;
 import com.uka.knowledge.service.RagService;
 import com.uka.knowledge.util.DocumentParser;
+import com.uka.knowledge.util.FileNameUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.UserMessage;
@@ -541,7 +541,15 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
         }
 
         String originalName = file.getOriginalFilename();
-        String fileType = FileUtil.getSuffix(originalName);
+        String safeName = FileNameUtil.bareName(originalName);
+        if (safeName == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "文件名不能为空");
+        }
+
+        String fileType = FileNameUtil.extension(safeName);
+        if (fileType == null) {
+            throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT, "无法识别文件类型");
+        }
 
         if (!fileConfig.isAllowedType(fileType)) {
             throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT,
@@ -549,7 +557,7 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
         }
 
         // 保存文件
-        String filePath = saveFile(file);
+        String filePath = saveFile(file, fileType);
 
         // 解析文件内容
         String parsedContent = null;
@@ -563,12 +571,12 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
                 }
             }
         } catch (Exception e) {
-            log.warn("附件解析失败: {}", originalName, e);
+            log.warn("附件解析失败: {}", safeName, e);
         }
 
         // 创建附件记录
         ChatAttachment attachment = new ChatAttachment();
-        attachment.setFileName(originalName);
+        attachment.setFileName(safeName);
         attachment.setFilePath(filePath);
         attachment.setFileType(fileType);
         attachment.setFileSize(file.getSize());
@@ -576,7 +584,7 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
 
         attachmentMapper.insert(attachment);
 
-        log.info("上传聊天附件成功, attachmentId={}, fileName={}", attachment.getId(), originalName);
+        log.info("上传聊天附件成功, attachmentId={}, fileName={}", attachment.getId(), safeName);
 
         return convertToAttachmentVO(attachment);
     }
@@ -591,8 +599,11 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
 
     /**
      * 保存文件到本地
+     *
+     * @param file      上传文件
+     * @param extension 校验通过的扩展名
      */
-    private String saveFile(MultipartFile file) {
+    private String saveFile(MultipartFile file, String extension) {
         try {
             // 生成存储路径：uploads/chat/2024/01/
             String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
@@ -602,8 +613,6 @@ public class ChatServiceImpl extends ServiceImpl<ChatSessionMapper, ChatSession>
             Files.createDirectories(uploadDir);
 
             // 生成唯一文件名
-            String originalName = file.getOriginalFilename();
-            String extension = FileUtil.getSuffix(originalName);
             String newFileName = IdUtil.fastSimpleUUID() + "." + extension;
 
             // 保存文件

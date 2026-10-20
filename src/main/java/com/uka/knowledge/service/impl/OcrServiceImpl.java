@@ -17,6 +17,7 @@ import com.uka.knowledge.service.KnowledgeExtractService;
 import com.uka.knowledge.service.OcrService;
 import com.uka.knowledge.service.OllamaService;
 import com.uka.knowledge.service.VectorService;
+import com.uka.knowledge.util.FileNameUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.Tesseract;
@@ -73,20 +74,20 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OcrRecord uploadAndRecognize(MultipartFile file) {
-        // 验证文件
-        validateImage(file);
+        // 验证图片，得到已校验的扩展名
+        String imageType = validateImage(file);
 
         // 保存图片
-        String imagePath = saveImage(file);
+        String imagePath = saveImage(file, imageType);
 
         // 获取图片信息
         String originalName = file.getOriginalFilename();
-        String imageType = FileUtil.getSuffix(originalName);
+        String safeName = FileNameUtil.bareName(originalName);
 
         // 创建OCR记录
         OcrRecord record = new OcrRecord();
-        record.setImageName(FileUtil.mainName(originalName));
-        record.setOriginalName(originalName);
+        record.setImageName(FileNameUtil.baseName(originalName));
+        record.setOriginalName(safeName);
         record.setImagePath(imagePath);
         record.setImageType(imageType);
         record.setImageSize(file.getSize());
@@ -238,25 +239,41 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
 
     /**
      * 验证上传的图片
+     *
+     * @param file 上传的图片
+     * @return 校验通过的小写扩展名
      */
-    private void validateImage(MultipartFile file) {
+    private String validateImage(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "图片不能为空");
         }
 
         String originalName = file.getOriginalFilename();
-        String imageType = FileUtil.getSuffix(originalName);
+        String safeName = FileNameUtil.bareName(originalName);
+        if (safeName == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "图片名称不能为空");
+        }
 
-        if (!IMAGE_TYPES.contains(imageType.toLowerCase())) {
+        String imageType = FileNameUtil.extension(safeName);
+        if (imageType == null) {
+            throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT, "无法识别图片类型");
+        }
+
+        if (!IMAGE_TYPES.contains(imageType)) {
             throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT,
                     "不支持的图片类型: " + imageType);
         }
+
+        return imageType;
     }
 
     /**
      * 保存图片到本地
+     *
+     * @param file      上传的图片
+     * @param extension 校验通过的扩展名
      */
-    private String saveImage(MultipartFile file) {
+    private String saveImage(MultipartFile file, String extension) {
         try {
             // 生成存储路径：uploads/ocr/2024/01/
             String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
@@ -267,8 +284,6 @@ public class OcrServiceImpl extends ServiceImpl<OcrRecordMapper, OcrRecord> impl
             Files.createDirectories(uploadDir);
 
             // 生成唯一文件名
-            String originalName = file.getOriginalFilename();
-            String extension = FileUtil.getSuffix(originalName);
             String newFileName = IdUtil.fastSimpleUUID() + "." + extension;
 
             // 保存文件 - 使用字节流方式，避免transferTo的路径问题

@@ -22,6 +22,7 @@ import com.uka.knowledge.service.KnowledgeNodeService;
 import com.uka.knowledge.service.OllamaService;
 import com.uka.knowledge.service.VectorService;
 import com.uka.knowledge.util.DocumentParser;
+import com.uka.knowledge.util.FileNameUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -69,20 +70,20 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Document uploadAndParse(MultipartFile file) {
-        // 验证文件
-        validateFile(file);
+        // 验证文件，得到已校验的扩展名
+        String fileType = validateFile(file);
 
         // 保存文件
-        String filePath = saveFile(file);
+        String filePath = saveFile(file, fileType);
 
         // 获取文件信息
         String originalName = file.getOriginalFilename();
-        String fileType = FileUtil.getSuffix(originalName);
+        String safeName = FileNameUtil.bareName(originalName);
 
         // 创建文档记录
         Document document = new Document();
-        document.setName(FileUtil.mainName(originalName));
-        document.setOriginalName(originalName);
+        document.setName(FileNameUtil.baseName(originalName));
+        document.setOriginalName(safeName);
         document.setFilePath(filePath);
         document.setFileType(fileType);
         document.setFileSize(file.getSize());
@@ -301,25 +302,41 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
 
     /**
      * 验证上传文件
+     *
+     * @param file 上传文件
+     * @return 校验通过的小写扩展名
      */
-    private void validateFile(MultipartFile file) {
+    private String validateFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "文件不能为空");
         }
 
         String originalName = file.getOriginalFilename();
-        String fileType = FileUtil.getSuffix(originalName);
+        String safeName = FileNameUtil.bareName(originalName);
+        if (safeName == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "文件名不能为空");
+        }
+
+        String fileType = FileNameUtil.extension(safeName);
+        if (fileType == null) {
+            throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT, "无法识别文件类型");
+        }
 
         if (!fileConfig.isAllowedType(fileType)) {
             throw new BusinessException(ResultCode.FILE_TYPE_NOT_SUPPORT,
                     "不支持的文件类型: " + fileType);
         }
+
+        return fileType;
     }
 
     /**
      * 保存文件到本地
+     *
+     * @param file      上传文件
+     * @param extension 校验通过的扩展名
      */
-    private String saveFile(MultipartFile file) {
+    private String saveFile(MultipartFile file, String extension) {
         try {
             // 生成存储路径：uploads/2024/01/
             String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
@@ -330,8 +347,6 @@ public class DocumentServiceImpl extends ServiceImpl<DocumentMapper, Document> i
             Files.createDirectories(uploadDir);
 
             // 生成唯一文件名
-            String originalName = file.getOriginalFilename();
-            String extension = FileUtil.getSuffix(originalName);
             String newFileName = IdUtil.fastSimpleUUID() + "." + extension;
 
             // 保存文件 - 使用字节流方式，避免transferTo的路径问题
