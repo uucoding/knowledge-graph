@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * 应用启动测试类
+ * 骨架启动冒烟测试
  *
  * @author uka
  * @version 1.0
@@ -14,6 +14,5 @@ class KnowledgeApplicationTests {
 
     @Test
     void contextLoads() {
-        // 测试Spring上下文是否能正常加载
     }
 }
