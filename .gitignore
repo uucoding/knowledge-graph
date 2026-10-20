@@ -40,3 +40,5 @@ build/
 /.idea/
 node_modules/
 docs/
+/.qoder/
+/uploads/
