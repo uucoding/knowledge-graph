@@ -1,0 +1,1085 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T09:43:14Z",
+  "title": "Design System: 知识图谱系统",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "舆图蓝 Atlas Blue",
+        "canonical": "rgb(22, 93, 255)",
+        "tonalRamp": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "舆图蓝·悬停",
+        "canonical": "rgb(64, 128, 255)",
+        "tonalRamp": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ]
+      },
+      "primary-active": {
+        "role": "primary",
+        "displayName": "舆图蓝·按下",
+        "canonical": "rgb(14, 66, 210)",
+        "tonalRamp": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ]
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "舆图蓝·底纹",
+        "canonical": "rgb(232, 243, 255)",
+        "tonalRamp": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ]
+      },
+      "on-primary": {
+        "role": "on-primary",
+        "displayName": "纸白 Paper White",
+        "canonical": "rgb(255, 255, 255)"
+      },
+      "success": {
+        "role": "success",
+        "displayName": "勘定绿 Survey Green",
+        "canonical": "rgb(0, 180, 42)",
+        "tonalRamp": [
+          "rgb(232, 255, 234)",
+          "rgb(175, 240, 181)",
+          "rgb(123, 225, 136)",
+          "rgb(76, 210, 99)",
+          "rgb(35, 195, 67)",
+          "rgb(0, 180, 42)",
+          "rgb(0, 154, 41)",
+          "rgb(0, 128, 38)",
+          "rgb(0, 102, 34)",
+          "rgb(0, 77, 28)"
+        ]
+      },
+      "success-text": {
+        "role": "success",
+        "displayName": "勘定绿·文字",
+        "canonical": "rgb(0, 128, 38)",
+        "tonalRamp": [
+          "rgb(232, 255, 234)",
+          "rgb(175, 240, 181)",
+          "rgb(123, 225, 136)",
+          "rgb(76, 210, 99)",
+          "rgb(35, 195, 67)",
+          "rgb(0, 180, 42)",
+          "rgb(0, 154, 41)",
+          "rgb(0, 128, 38)",
+          "rgb(0, 102, 34)",
+          "rgb(0, 77, 28)"
+        ]
+      },
+      "warning": {
+        "role": "warning",
+        "displayName": "标尺橙 Bench Orange",
+        "canonical": "rgb(255, 125, 0)",
+        "tonalRamp": [
+          "rgb(255, 247, 232)",
+          "rgb(255, 228, 186)",
+          "rgb(255, 207, 139)",
+          "rgb(255, 182, 93)",
+          "rgb(255, 154, 46)",
+          "rgb(255, 125, 0)",
+          "rgb(210, 95, 0)",
+          "rgb(166, 69, 0)",
+          "rgb(121, 46, 0)",
+          "rgb(77, 27, 0)"
+        ]
+      },
+      "warning-text": {
+        "role": "warning",
+        "displayName": "标尺橙·文字",
+        "canonical": "rgb(166, 69, 0)",
+        "tonalRamp": [
+          "rgb(255, 247, 232)",
+          "rgb(255, 228, 186)",
+          "rgb(255, 207, 139)",
+          "rgb(255, 182, 93)",
+          "rgb(255, 154, 46)",
+          "rgb(255, 125, 0)",
+          "rgb(210, 95, 0)",
+          "rgb(166, 69, 0)",
+          "rgb(121, 46, 0)",
+          "rgb(77, 27, 0)"
+        ]
+      },
+      "danger": {
+        "role": "danger",
+        "displayName": "警界红 Boundary Red",
+        "canonical": "rgb(245, 63, 63)",
+        "tonalRamp": [
+          "rgb(255, 236, 232)",
+          "rgb(253, 205, 197)",
+          "rgb(251, 172, 163)",
+          "rgb(249, 137, 129)",
+          "rgb(247, 101, 96)",
+          "rgb(245, 63, 63)",
+          "rgb(203, 39, 45)",
+          "rgb(161, 21, 30)",
+          "rgb(119, 8, 19)",
+          "rgb(77, 0, 10)"
+        ]
+      },
+      "danger-text": {
+        "role": "danger",
+        "displayName": "警界红·文字",
+        "canonical": "rgb(203, 38, 52)",
+        "tonalRamp": [
+          "rgb(255, 236, 232)",
+          "rgb(253, 205, 197)",
+          "rgb(251, 172, 163)",
+          "rgb(249, 137, 129)",
+          "rgb(247, 101, 96)",
+          "rgb(245, 63, 63)",
+          "rgb(203, 39, 45)",
+          "rgb(161, 21, 30)",
+          "rgb(119, 8, 19)",
+          "rgb(77, 0, 10)"
+        ]
+      },
+      "info": {
+        "role": "info",
+        "displayName": "注记灰 Annotation Gray",
+        "canonical": "rgb(134, 144, 156)",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "墨色 Ink",
+        "canonical": "#1d2129",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "次级墨 Secondary Ink",
+        "canonical": "#4e5969",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "三级墨 Tertiary Ink",
+        "canonical": "#6b7785",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "text-muted-strong": {
+        "role": "neutral",
+        "displayName": "桌面次级墨",
+        "canonical": "#5f6b7a",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "text-disabled": {
+        "role": "neutral",
+        "displayName": "残墨 Disabled Ink",
+        "canonical": "#c9cdd4",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "细界线 Hairline",
+        "canonical": "#e5e6eb",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "界线 Strong Line",
+        "canonical": "#c9cdd4",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "图纸 Paper",
+        "canonical": "#ffffff"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "桌面 Desk",
+        "canonical": "#f7f8fa",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "surface-sunken": {
+        "role": "neutral",
+        "displayName": "凹面 Sunken Tray",
+        "canonical": "#f2f3f5",
+        "tonalRamp": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "category-1": {
+        "role": "categorical",
+        "displayName": "水系蓝 Hydro Blue",
+        "canonical": "rgb(22, 93, 255)",
+        "tonalRamp": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ]
+      },
+      "category-2": {
+        "role": "categorical",
+        "displayName": "林地绿 Woodland Green",
+        "canonical": "rgb(0, 180, 42)",
+        "tonalRamp": [
+          "rgb(232, 255, 234)",
+          "rgb(175, 240, 181)",
+          "rgb(123, 225, 136)",
+          "rgb(76, 210, 99)",
+          "rgb(35, 195, 67)",
+          "rgb(0, 180, 42)",
+          "rgb(0, 154, 41)",
+          "rgb(0, 128, 38)",
+          "rgb(0, 102, 34)",
+          "rgb(0, 77, 28)"
+        ]
+      },
+      "category-3": {
+        "role": "categorical",
+        "displayName": "土脉橙 Terrain Orange",
+        "canonical": "rgb(255, 125, 0)",
+        "tonalRamp": [
+          "rgb(255, 247, 232)",
+          "rgb(255, 228, 186)",
+          "rgb(255, 207, 139)",
+          "rgb(255, 182, 93)",
+          "rgb(255, 154, 46)",
+          "rgb(255, 125, 0)",
+          "rgb(210, 95, 0)",
+          "rgb(166, 69, 0)",
+          "rgb(121, 46, 0)",
+          "rgb(77, 27, 0)"
+        ]
+      },
+      "category-4": {
+        "role": "categorical",
+        "displayName": "版图红 Map Red",
+        "canonical": "rgb(245, 63, 63)",
+        "tonalRamp": [
+          "rgb(255, 236, 232)",
+          "rgb(253, 205, 197)",
+          "rgb(251, 172, 163)",
+          "rgb(249, 137, 129)",
+          "rgb(247, 101, 96)",
+          "rgb(245, 63, 63)",
+          "rgb(203, 39, 45)",
+          "rgb(161, 21, 30)",
+          "rgb(119, 8, 19)",
+          "rgb(77, 0, 10)"
+        ]
+      },
+      "category-5": {
+        "role": "categorical",
+        "displayName": "潟湖青 Lagoon Cyan",
+        "canonical": "rgb(20, 201, 201)",
+        "tonalRamp": [
+          "rgb(232, 255, 251)",
+          "rgb(183, 244, 236)",
+          "rgb(137, 233, 224)",
+          "rgb(94, 223, 214)",
+          "rgb(55, 212, 207)",
+          "rgb(20, 201, 201)",
+          "rgb(13, 165, 170)",
+          "rgb(7, 130, 139)",
+          "rgb(3, 97, 108)",
+          "rgb(0, 66, 77)"
+        ]
+      },
+      "category-6": {
+        "role": "categorical",
+        "displayName": "沙金 Gold Sand",
+        "canonical": "rgb(247, 186, 30)",
+        "tonalRamp": [
+          "rgb(255, 252, 232)",
+          "rgb(253, 244, 191)",
+          "rgb(252, 233, 150)",
+          "rgb(250, 220, 109)",
+          "rgb(249, 204, 69)",
+          "rgb(247, 186, 30)",
+          "rgb(204, 146, 19)",
+          "rgb(162, 109, 10)",
+          "rgb(119, 75, 4)",
+          "rgb(77, 45, 0)"
+        ]
+      },
+      "category-7": {
+        "role": "categorical",
+        "displayName": "山影紫 Ridge Purple",
+        "canonical": "rgb(114, 46, 209)",
+        "tonalRamp": [
+          "rgb(245, 232, 255)",
+          "rgb(221, 190, 246)",
+          "rgb(195, 150, 237)",
+          "rgb(168, 113, 227)",
+          "rgb(141, 78, 218)",
+          "rgb(114, 46, 209)",
+          "rgb(85, 29, 176)",
+          "rgb(60, 16, 143)",
+          "rgb(39, 6, 110)",
+          "rgb(22, 0, 77)"
+        ]
+      },
+      "category-8": {
+        "role": "categorical",
+        "displayName": "品红 Mark Magenta",
+        "canonical": "rgb(245, 49, 157)",
+        "tonalRamp": [
+          "rgb(255, 232, 241)",
+          "rgb(253, 194, 219)",
+          "rgb(251, 157, 199)",
+          "rgb(249, 121, 183)",
+          "rgb(247, 84, 168)",
+          "rgb(245, 49, 157)",
+          "rgb(203, 30, 131)",
+          "rgb(161, 16, 105)",
+          "rgb(119, 6, 79)",
+          "rgb(77, 0, 52)"
+        ]
+      },
+      "category-9": {
+        "role": "categorical",
+        "displayName": "苔原酸橙 Tundra Lime",
+        "canonical": "rgb(159, 219, 29)",
+        "tonalRamp": [
+          "rgb(252, 255, 232)",
+          "rgb(237, 248, 187)",
+          "rgb(220, 241, 144)",
+          "rgb(201, 233, 104)",
+          "rgb(181, 226, 65)",
+          "rgb(159, 219, 29)",
+          "rgb(126, 183, 18)",
+          "rgb(95, 148, 10)",
+          "rgb(67, 112, 4)",
+          "rgb(42, 77, 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "title": {
+        "displayName": "Title",
+        "purpose": "页面与弹窗标题；全系统最大字号。"
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "面板标题、聊天头部、图例标题。"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "表格、表单、消息正文；长文控制在 70ch。"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "按钮、标签页、字段标签。"
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "时间戳、元数据、计数。"
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "ID、计数、相似度、边权重、时间；tnum 等宽数位。"
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "代码块、JSON 属性、OCR 原文。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px rgba(22, 93, 255, 0.16)",
+        "purpose": "键盘焦点与输入聚焦。"
+      },
+      {
+        "name": "hover-lift",
+        "value": "0 2px 8px rgba(22, 93, 255, 0.12)",
+        "purpose": "可点击面板、证据行、图例项的悬停；同时描边转为舆图蓝。"
+      },
+      {
+        "name": "overlay",
+        "value": "0 12px 32px rgba(17, 24, 39, 0.16)",
+        "purpose": "弹窗、下拉与浮层。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-transition",
+        "value": "200ms ease",
+        "purpose": "悬停、聚焦、选中态的默认过渡。"
+      },
+      {
+        "name": "streaming-cursor",
+        "value": "1s infinite blink",
+        "purpose": "AI 流式输出的光标闪烁。"
+      },
+      {
+        "name": "typing-dots",
+        "value": "1.4s infinite ease-in-out",
+        "purpose": "助手思考中的三点指示。"
+      }
+    ],
+    "paletteSource": {
+      "light": {
+        "red": [
+          "rgb(255, 236, 232)",
+          "rgb(253, 205, 197)",
+          "rgb(251, 172, 163)",
+          "rgb(249, 137, 129)",
+          "rgb(247, 101, 96)",
+          "rgb(245, 63, 63)",
+          "rgb(203, 39, 45)",
+          "rgb(161, 21, 30)",
+          "rgb(119, 8, 19)",
+          "rgb(77, 0, 10)"
+        ],
+        "orangered": [
+          "rgb(255, 243, 232)",
+          "rgb(253, 221, 195)",
+          "rgb(252, 197, 159)",
+          "rgb(250, 172, 123)",
+          "rgb(249, 144, 87)",
+          "rgb(247, 114, 52)",
+          "rgb(204, 81, 32)",
+          "rgb(162, 53, 17)",
+          "rgb(119, 31, 6)",
+          "rgb(77, 14, 0)"
+        ],
+        "orange": [
+          "rgb(255, 247, 232)",
+          "rgb(255, 228, 186)",
+          "rgb(255, 207, 139)",
+          "rgb(255, 182, 93)",
+          "rgb(255, 154, 46)",
+          "rgb(255, 125, 0)",
+          "rgb(210, 95, 0)",
+          "rgb(166, 69, 0)",
+          "rgb(121, 46, 0)",
+          "rgb(77, 27, 0)"
+        ],
+        "gold": [
+          "rgb(255, 252, 232)",
+          "rgb(253, 244, 191)",
+          "rgb(252, 233, 150)",
+          "rgb(250, 220, 109)",
+          "rgb(249, 204, 69)",
+          "rgb(247, 186, 30)",
+          "rgb(204, 146, 19)",
+          "rgb(162, 109, 10)",
+          "rgb(119, 75, 4)",
+          "rgb(77, 45, 0)"
+        ],
+        "yellow": [
+          "rgb(254, 255, 232)",
+          "rgb(254, 254, 190)",
+          "rgb(253, 250, 148)",
+          "rgb(252, 242, 107)",
+          "rgb(251, 232, 66)",
+          "rgb(250, 220, 25)",
+          "rgb(207, 175, 15)",
+          "rgb(163, 132, 8)",
+          "rgb(120, 93, 3)",
+          "rgb(77, 56, 0)"
+        ],
+        "lime": [
+          "rgb(252, 255, 232)",
+          "rgb(237, 248, 187)",
+          "rgb(220, 241, 144)",
+          "rgb(201, 233, 104)",
+          "rgb(181, 226, 65)",
+          "rgb(159, 219, 29)",
+          "rgb(126, 183, 18)",
+          "rgb(95, 148, 10)",
+          "rgb(67, 112, 4)",
+          "rgb(42, 77, 0)"
+        ],
+        "green": [
+          "rgb(232, 255, 234)",
+          "rgb(175, 240, 181)",
+          "rgb(123, 225, 136)",
+          "rgb(76, 210, 99)",
+          "rgb(35, 195, 67)",
+          "rgb(0, 180, 42)",
+          "rgb(0, 154, 41)",
+          "rgb(0, 128, 38)",
+          "rgb(0, 102, 34)",
+          "rgb(0, 77, 28)"
+        ],
+        "cyan": [
+          "rgb(232, 255, 251)",
+          "rgb(183, 244, 236)",
+          "rgb(137, 233, 224)",
+          "rgb(94, 223, 214)",
+          "rgb(55, 212, 207)",
+          "rgb(20, 201, 201)",
+          "rgb(13, 165, 170)",
+          "rgb(7, 130, 139)",
+          "rgb(3, 97, 108)",
+          "rgb(0, 66, 77)"
+        ],
+        "blue": [
+          "rgb(232, 247, 255)",
+          "rgb(195, 231, 254)",
+          "rgb(159, 212, 253)",
+          "rgb(123, 192, 252)",
+          "rgb(87, 169, 251)",
+          "rgb(52, 145, 250)",
+          "rgb(32, 108, 207)",
+          "rgb(17, 75, 163)",
+          "rgb(6, 48, 120)",
+          "rgb(0, 26, 77)"
+        ],
+        "arcoblue": [
+          "rgb(232, 243, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(148, 191, 255)",
+          "rgb(106, 161, 255)",
+          "rgb(64, 128, 255)",
+          "rgb(22, 93, 255)",
+          "rgb(14, 66, 210)",
+          "rgb(7, 44, 166)",
+          "rgb(3, 26, 121)",
+          "rgb(0, 13, 77)"
+        ],
+        "purple": [
+          "rgb(245, 232, 255)",
+          "rgb(221, 190, 246)",
+          "rgb(195, 150, 237)",
+          "rgb(168, 113, 227)",
+          "rgb(141, 78, 218)",
+          "rgb(114, 46, 209)",
+          "rgb(85, 29, 176)",
+          "rgb(60, 16, 143)",
+          "rgb(39, 6, 110)",
+          "rgb(22, 0, 77)"
+        ],
+        "pinkpurple": [
+          "rgb(255, 232, 251)",
+          "rgb(247, 186, 239)",
+          "rgb(240, 142, 230)",
+          "rgb(232, 101, 223)",
+          "rgb(225, 62, 219)",
+          "rgb(217, 26, 217)",
+          "rgb(176, 16, 182)",
+          "rgb(138, 9, 147)",
+          "rgb(101, 3, 112)",
+          "rgb(66, 0, 77)"
+        ],
+        "magenta": [
+          "rgb(255, 232, 241)",
+          "rgb(253, 194, 219)",
+          "rgb(251, 157, 199)",
+          "rgb(249, 121, 183)",
+          "rgb(247, 84, 168)",
+          "rgb(245, 49, 157)",
+          "rgb(203, 30, 131)",
+          "rgb(161, 16, 105)",
+          "rgb(119, 6, 79)",
+          "rgb(77, 0, 52)"
+        ],
+        "rsgx": [
+          "rgb(232, 240, 255)",
+          "rgb(185, 204, 243)",
+          "rgb(141, 168, 231)",
+          "rgb(101, 133, 220)",
+          "rgb(65, 98, 208)",
+          "rgb(32, 64, 196)",
+          "rgb(20, 45, 166)",
+          "rgb(11, 28, 136)",
+          "rgb(4, 15, 106)",
+          "rgb(0, 5, 77)"
+        ],
+        "gray": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      },
+      "dark": {
+        "red": [
+          "rgb(77, 0, 10)",
+          "rgb(119, 6, 17)",
+          "rgb(161, 22, 31)",
+          "rgb(203, 46, 52)",
+          "rgb(245, 78, 78)",
+          "rgb(247, 105, 101)",
+          "rgb(249, 141, 134)",
+          "rgb(251, 176, 167)",
+          "rgb(253, 209, 202)",
+          "rgb(255, 240, 236)"
+        ],
+        "orangered": [
+          "rgb(77, 14, 0)",
+          "rgb(119, 30, 5)",
+          "rgb(162, 55, 20)",
+          "rgb(204, 87, 41)",
+          "rgb(247, 126, 69)",
+          "rgb(249, 146, 90)",
+          "rgb(250, 173, 125)",
+          "rgb(252, 198, 161)",
+          "rgb(253, 222, 197)",
+          "rgb(255, 244, 235)"
+        ],
+        "orange": [
+          "rgb(77, 27, 0)",
+          "rgb(121, 48, 4)",
+          "rgb(166, 75, 10)",
+          "rgb(210, 105, 19)",
+          "rgb(255, 141, 31)",
+          "rgb(255, 150, 38)",
+          "rgb(255, 179, 87)",
+          "rgb(255, 205, 135)",
+          "rgb(255, 227, 184)",
+          "rgb(255, 247, 232)"
+        ],
+        "gold": [
+          "rgb(77, 45, 0)",
+          "rgb(119, 75, 4)",
+          "rgb(162, 111, 15)",
+          "rgb(204, 150, 31)",
+          "rgb(247, 192, 52)",
+          "rgb(249, 204, 68)",
+          "rgb(250, 220, 108)",
+          "rgb(252, 233, 149)",
+          "rgb(253, 244, 190)",
+          "rgb(255, 252, 232)"
+        ],
+        "yellow": [
+          "rgb(77, 56, 0)",
+          "rgb(120, 94, 7)",
+          "rgb(163, 134, 20)",
+          "rgb(207, 179, 37)",
+          "rgb(250, 225, 60)",
+          "rgb(251, 233, 75)",
+          "rgb(252, 243, 116)",
+          "rgb(253, 250, 157)",
+          "rgb(254, 254, 198)",
+          "rgb(254, 255, 240)"
+        ],
+        "lime": [
+          "rgb(42, 77, 0)",
+          "rgb(68, 112, 6)",
+          "rgb(98, 148, 18)",
+          "rgb(132, 183, 35)",
+          "rgb(168, 219, 57)",
+          "rgb(184, 226, 75)",
+          "rgb(203, 233, 112)",
+          "rgb(222, 241, 152)",
+          "rgb(238, 248, 194)",
+          "rgb(253, 255, 238)"
+        ],
+        "green": [
+          "rgb(0, 77, 28)",
+          "rgb(4, 102, 37)",
+          "rgb(10, 128, 45)",
+          "rgb(18, 154, 55)",
+          "rgb(29, 180, 64)",
+          "rgb(39, 195, 70)",
+          "rgb(80, 210, 102)",
+          "rgb(126, 225, 139)",
+          "rgb(178, 240, 183)",
+          "rgb(235, 255, 236)"
+        ],
+        "cyan": [
+          "rgb(0, 66, 77)",
+          "rgb(6, 97, 108)",
+          "rgb(17, 131, 139)",
+          "rgb(31, 166, 170)",
+          "rgb(48, 201, 201)",
+          "rgb(63, 212, 207)",
+          "rgb(102, 223, 215)",
+          "rgb(144, 233, 225)",
+          "rgb(190, 244, 237)",
+          "rgb(240, 255, 252)"
+        ],
+        "blue": [
+          "rgb(0, 26, 77)",
+          "rgb(5, 47, 120)",
+          "rgb(19, 76, 163)",
+          "rgb(41, 113, 207)",
+          "rgb(70, 154, 250)",
+          "rgb(90, 170, 251)",
+          "rgb(125, 193, 252)",
+          "rgb(161, 213, 253)",
+          "rgb(198, 232, 254)",
+          "rgb(234, 248, 255)"
+        ],
+        "arcoblue": [
+          "rgb(0, 13, 77)",
+          "rgb(4, 27, 121)",
+          "rgb(14, 50, 166)",
+          "rgb(29, 77, 210)",
+          "rgb(48, 111, 255)",
+          "rgb(60, 126, 255)",
+          "rgb(104, 159, 255)",
+          "rgb(147, 190, 255)",
+          "rgb(190, 218, 255)",
+          "rgb(234, 244, 255)"
+        ],
+        "purple": [
+          "rgb(22, 0, 77)",
+          "rgb(39, 6, 110)",
+          "rgb(62, 19, 143)",
+          "rgb(90, 37, 176)",
+          "rgb(123, 61, 209)",
+          "rgb(142, 81, 218)",
+          "rgb(169, 116, 227)",
+          "rgb(197, 154, 237)",
+          "rgb(223, 194, 246)",
+          "rgb(247, 237, 255)"
+        ],
+        "pinkpurple": [
+          "rgb(66, 0, 77)",
+          "rgb(101, 3, 112)",
+          "rgb(138, 13, 147)",
+          "rgb(176, 27, 182)",
+          "rgb(217, 46, 217)",
+          "rgb(225, 61, 219)",
+          "rgb(232, 102, 223)",
+          "rgb(240, 146, 230)",
+          "rgb(247, 193, 240)",
+          "rgb(255, 242, 253)"
+        ],
+        "magenta": [
+          "rgb(77, 0, 52)",
+          "rgb(119, 8, 80)",
+          "rgb(161, 23, 108)",
+          "rgb(203, 43, 136)",
+          "rgb(245, 69, 166)",
+          "rgb(247, 86, 169)",
+          "rgb(249, 122, 184)",
+          "rgb(251, 158, 200)",
+          "rgb(253, 195, 219)",
+          "rgb(255, 232, 241)"
+        ],
+        "rsgx": [
+          "rgb(0, 5, 77)",
+          "rgb(4, 15, 106)",
+          "rgb(14, 31, 136)",
+          "rgb(29, 52, 166)",
+          "rgb(48, 77, 196)",
+          "rgb(65, 98, 208)",
+          "rgb(102, 134, 220)",
+          "rgb(142, 168, 231)",
+          "rgb(185, 204, 243)",
+          "rgb(233, 241, 255)"
+        ],
+        "gray": [
+          "#f7f8fa",
+          "#f2f3f5",
+          "#e5e6eb",
+          "#c9cdd4",
+          "#a9aeb8",
+          "#86909c",
+          "#6b7785",
+          "#4e5969",
+          "#272e3b",
+          "#1d2129"
+        ]
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "每屏唯一的主动作，舆图蓝底白字。",
+      "html": "<button class='ds-btn-primary' type='button'>新建节点</button>",
+      "css": ".ds-btn-primary { height: 32px; padding: 0 14px; border: 1px solid #165dff; border-radius: 4px; background: #165dff; color: #ffffff; font: 500 13px/1 'PingFang SC', 'Microsoft YaHei', sans-serif; cursor: pointer; transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease; } .ds-btn-primary:hover { background: #4080ff; border-color: #4080ff; } .ds-btn-primary:active { background: #0e42d2; border-color: #0e42d2; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.16); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "白底描边的次级动作；悬停时描边与文字转蓝。",
+      "html": "<button class='ds-btn-secondary' type='button'>取消</button>",
+      "css": ".ds-btn-secondary { height: 32px; padding: 0 14px; border: 1px solid #c9cdd4; border-radius: 4px; background: #ffffff; color: #4e5969; font: 500 13px/1 'PingFang SC', 'Microsoft YaHei', sans-serif; cursor: pointer; transition: border-color 200ms ease, color 200ms ease, background 200ms ease, box-shadow 200ms ease; } .ds-btn-secondary:hover { border-color: #165dff; color: #165dff; background: #f7f8fa; } .ds-btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.16); }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "32px 搜索框，聚焦时蓝色描边与焦点环。",
+      "html": "<label class='ds-field'><svg viewBox='0 0 16 16' width='16' height='16' aria-hidden='true'><circle cx='7' cy='7' r='4.25' fill='none' stroke='currentColor' stroke-width='1.4'/><path d='M10.2 10.2 13.5 13.5' fill='none' stroke='currentColor' stroke-width='1.4' stroke-linecap='round'/></svg><input type='search' placeholder='搜索节点、文档或关系' /></label>",
+      "css": ".ds-field { display: flex; align-items: center; gap: 8px; width: 280px; height: 32px; padding: 0 10px; border: 1px solid #c9cdd4; border-radius: 4px; background: #ffffff; color: #86909c; transition: border-color 200ms ease, box-shadow 200ms ease; } .ds-field input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: #1d2129; font: 400 14px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; } .ds-field input::placeholder { color: #86909c; } .ds-field:focus-within { border-color: #165dff; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.16); color: #165dff; }"
+    },
+    {
+      "name": "Index Rail Item",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "浅色索引栏条目；激活态用浅蓝底与左侧位置标记。",
+      "html": "<a class='ds-nav-item is-active' href='#graph'><span class='ds-nav-marker'></span><svg viewBox='0 0 16 16' width='16' height='16' aria-hidden='true'><circle cx='4' cy='8' r='1.6' fill='currentColor'/><circle cx='12' cy='4' r='1.6' fill='currentColor'/><circle cx='12' cy='12' r='1.6' fill='currentColor'/><path d='M5.4 7.4 10.6 4.6M5.4 8.6l5.2 2.8' fill='none' stroke='currentColor' stroke-width='1.1'/></svg><span>图谱可视化</span></a>",
+      "css": ".ds-nav-item { position: relative; display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 4px; color: #4e5969; text-decoration: none; font: 400 14px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; transition: background 200ms ease, color 200ms ease; } .ds-nav-item:hover { background: #f2f3f5; } .ds-nav-item.is-active { background: #e8f3ff; color: #165dff; font-weight: 500; } .ds-nav-marker { position: absolute; left: 0; top: 10px; width: 2px; height: 16px; border-radius: 1px; background: transparent; } .ds-nav-item.is-active .ds-nav-marker { background: #165dff; } .ds-nav-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.16); }"
+    },
+    {
+      "name": "Status Tag",
+      "kind": "chip",
+      "refersTo": "tag-neutral",
+      "description": "墨点 + 文本的状态标签，不用整块高饱和底色。",
+      "html": "<span class='ds-tag'><i class='ds-dot ds-dot-success'></i>已完成</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 4px; background: #f2f3f5; color: #4e5969; font: 400 12px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; white-space: nowrap; } .ds-dot { width: 6px; height: 6px; border-radius: 50%; background: #86909c; } .ds-dot-success { background: #00b42a; } .ds-dot-warning { background: #ff7d00; } .ds-dot-danger { background: #f53f3f; }"
+    },
+    {
+      "name": "Data Table",
+      "kind": "custom",
+      "refersTo": "table-row",
+      "description": "40px 行高、1px 细界线、数字右对齐并等宽。",
+      "html": "<div class='ds-table'><div class='ds-table-head'><span>节点</span><span>类型</span><span class='ds-num'>关联数</span></div><div class='ds-table-row'><span>知识图谱</span><span>概念</span><span class='ds-num'>128</span></div><div class='ds-table-row'><span>Ollama</span><span>技术</span><span class='ds-num'>46</span></div></div>",
+      "css": ".ds-table { width: 100%; max-width: 520px; border-top: 1px solid #e5e6eb; font: 400 14px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #4e5969; } .ds-table-head, .ds-table-row { display: grid; grid-template-columns: 1fr 96px 80px; align-items: center; gap: 12px; height: 40px; border-bottom: 1px solid #e5e6eb; padding: 0 4px; } .ds-table-head { height: 32px; color: #86909c; font-size: 12px; } .ds-table-row { background: #ffffff; transition: background 200ms ease; } .ds-table-row:hover { background: #f7f8fa; } .ds-num { text-align: right; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "白图纸面板，静止无投影；可点击时悬停转蓝并轻抬升。",
+      "html": "<section class='ds-panel is-interactive'><header class='ds-panel-head'><h3>关联文档</h3><button class='ds-panel-more' type='button' aria-label='更多'>···</button></header><p class='ds-panel-body'>3 个文档块与本轮回答相关，页码已定位。</p></section>",
+      "css": ".ds-panel { width: 100%; max-width: 360px; padding: 16px; border: 1px solid #e5e6eb; border-radius: 8px; background: #ffffff; transition: border-color 200ms ease, box-shadow 200ms ease; } .ds-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; } .ds-panel-head h3 { margin: 0; color: #1d2129; font: 600 15px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; } .ds-panel-more { border: 0; background: transparent; color: #86909c; cursor: pointer; font-size: 14px; line-height: 1; } .ds-panel-body { margin: 8px 0 0; color: #4e5969; font: 400 14px/1.6 'PingFang SC', 'Microsoft YaHei', sans-serif; } .ds-panel.is-interactive:hover { border-color: #165dff; box-shadow: 0 2px 8px rgba(22, 93, 255, 0.12); }"
+    },
+    {
+      "name": "Chat Bubbles",
+      "kind": "custom",
+      "refersTo": "chat-bubble-user",
+      "description": "用户蓝底、助手凹面底；8px 圆角，宽度不超过 70%。",
+      "html": "<div class='ds-chat'><div class='ds-bubble ds-bubble-user'>这张图里“知识抽取”和哪些节点相连？</div><div class='ds-bubble ds-bubble-assistant'>它连接到 <b>文档解析</b>、<b>实体识别</b> 与 <b>pgvector</b> 三个节点，证据页码已标出。</div></div>",
+      "css": ".ds-chat { display: flex; flex-direction: column; gap: 12px; max-width: 560px; } .ds-bubble { max-width: 70%; padding: 12px 16px; border-radius: 8px; font: 400 14px/1.6 'PingFang SC', 'Microsoft YaHei', sans-serif; } .ds-bubble-user { align-self: flex-end; background: #165dff; color: #ffffff; } .ds-bubble-assistant { align-self: flex-start; background: #f2f3f5; color: #1d2129; }"
+    },
+    {
+      "name": "Graph Legend",
+      "kind": "custom",
+      "refersTo": "card-surface",
+      "description": "图幅索引式图例：墨点、名称与右对齐计数，取代 ECharts 默认图例。",
+      "html": "<div class='ds-legend'><div class='ds-legend-head'>图层 · 节点类型</div><ul><li><i style='background:#165dff'></i><span>技术</span><span class='ds-count'>24</span></li><li><i style='background:#00b42a'></i><span>组织</span><span class='ds-count'>18</span></li><li><i style='background:#ff7d00'></i><span>人物</span><span class='ds-count'>11</span></li></ul></div>",
+      "css": ".ds-legend { width: 180px; padding: 12px; border: 1px solid #e5e6eb; border-radius: 8px; background: #ffffff; font: 400 12px/1.5 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #4e5969; } .ds-legend-head { margin-bottom: 8px; color: #86909c; font-size: 12px; } .ds-legend ul { margin: 0; padding: 0; list-style: none; } .ds-legend li { display: flex; align-items: center; gap: 8px; height: 24px; } .ds-legend i { width: 8px; height: 8px; border-radius: 50%; } .ds-legend .ds-count { margin-left: auto; color: #86909c; font-variant-numeric: tabular-nums; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "知识舆图 The Atlas",
+    "overview": "知识图谱系统不是一块控制面板，而是一册可操作的地图集。文档是疆域，实体是地标，关系是道路，RAG 回答是钉回来源坐标的批注。每一屏都应当像一张地图图幅：安静的边框，完整的数据画布，清晰的图例；使用者不是在“操作后台”，而是在同一张图上定位、比对、行走。\n\n密度是有意为之：32px 控件、40px 表格行、1px 界线、灰桌面上的白图纸。层次来自描边与底色差，而不是投影或渐变。颜色是一套地图墨水：仅一种信号蓝标记当前位置与主动作，语义色只表示状态，类别色只出现在数据标记与图例中。\n\n已确认的反向参考：通用后台模板（深灰蓝侧栏、面包屑、卡片堆表格）、霓虹科技感（发光、星空、蓝紫渐变）、信息过载、营销页式过度留白。拒绝这四者本身就是方向的一部分。",
+    "keyCharacteristics": [
+      "图幅式构图：安静框架 + 全幅数据画布。",
+      "单一信号蓝；其余颜色只在语义或数据中出场。",
+      "扁平描边与纸张表面；投影仅用于浮层与交互。",
+      "仪器级紧凑密度，数字使用等宽数位。",
+      "中文优先，系统字体栈，无展示体、无装饰字。"
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "舆图蓝在任何一屏的覆盖不超过 10%。导航、一个主动作、焦点与实时数据状态之外，不出现蓝色。",
+        "section": "colors"
+      },
+      {
+        "name": "The Legend Rule",
+        "body": "分类色是数据，不是装饰。图例里的颜色永远不出现在按钮、边框或面板背景上。",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Rule",
+        "body": "静止表面是白图纸 + 1px 细界线；深度靠桌面/凹面的底色差，不靠色块或投影。",
+        "section": "colors"
+      },
+      {
+        "name": "The One Scale Rule",
+        "body": "标题止步于 18px。层次只用字重、颜色与间距建立，不引入展示字体或超大字号。",
+        "section": "typography"
+      },
+      {
+        "name": "The Data Voice Rule",
+        "body": "一切会被纵向比较的数字——ID、得分、数量、日期——使用等宽数位（tnum），绝不允许列间跳动。",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "表面静止时全平；投影是状态的回应或浮层的身份证，不是装饰。",
+        "section": "elevation"
+      },
+      {
+        "name": "The Two-Geometry Rule",
+        "body": "界面是圆角矩形，数据是圆。两种几何不互相借用。",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do 每屏只给一个主动作使用舆图蓝；其余动作退为次级或文字按钮。",
+      "Do 用图纸白 + 1px 细界线 + 桌面底色建立层次，静止面板不加投影。",
+      "Do 保持 32px 控件与 40px 表格行的仪器级密度。",
+      "Do 让 ID、计数、相似度、时间使用等宽数位并右对齐数字列。",
+      "Do 让分类色只出现在节点、边、图表与图例中。",
+      "Do 用墨点 + 文本表达状态，把饱和色留给数据与危险操作。",
+      "Do 保持中文优先；英文仅作为缩写、类型名或代码出现。",
+      "Do 把离线当作只读地图：保留浏览，禁用写入与 AI 动作，并给出重试入口。",
+      "Do 用持久状态面板表达加载、空、错误与离线；toast 只做临时确认。"
+    ],
+    "donts": [
+      "Don't 使用深灰蓝侧栏、常驻面包屑与“卡片堆表格”的通用后台框架。",
+      "Don't 使用渐变、发光、星空粒子或蓝紫霓虹。",
+      "Don't 在同一屏堆满所有字段、面板与图例；按“主表面 → 证据 → 次要”分层。",
+      "Don't 使用营销页式大间距或超过 18px 的页面标题。",
+      "Don't 给静止卡片加投影，或用分类色装饰按钮、边框与背景。",
+      "Don't 使用胶囊按钮、超过 8px 的圆角或重描边。",
+      "Don't 用英文 axios 错误或 3 秒 toast 作为唯一错误反馈。",
+      "Don't 在按钮内嵌套会收缩的标签组件；证据元数据使用固定宽度的原生 chip。"
+    ]
+  }
+}

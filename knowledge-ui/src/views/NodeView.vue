@@ -1,83 +1,113 @@
 <template>
-  <div class="node-view">
-    <!-- 搜索和操作栏 -->
+  <div class="node-view page-stack">
     <el-card class="toolbar-card">
       <div class="toolbar">
         <el-input
           v-model="searchForm.keyword"
+          class="search-input"
           placeholder="搜索节点名称..."
           prefix-icon="Search"
-          style="width: 250px"
           clearable
+          aria-label="搜索节点名称"
           @keyup.enter="handleSearch"
         />
-        <el-select v-model="searchForm.nodeType" placeholder="节点类型" clearable style="width: 150px">
+        <el-select
+          v-model="searchForm.nodeType"
+          class="type-select"
+          placeholder="节点类型"
+          clearable
+          aria-label="按节点类型筛选"
+        >
           <el-option v-for="type in nodeTypes" :key="type.value" :label="type.label" :value="type.value" />
         </el-select>
-        <el-button type="primary" @click="handleSearch">搜索</el-button>
-        <el-button @click="resetSearch">重置</el-button>
-        <el-button type="success" @click="openCreateDialog">
-          <el-icon><Plus /></el-icon>新建节点
+        <el-button @click="handleSearch">搜索</el-button>
+        <el-button text @click="resetSearch">重置</el-button>
+        <span class="toolbar-spacer"></span>
+        <el-button type="primary" :disabled="!service.online" @click="openCreateDialog">
+          <el-icon><Plus /></el-icon>
+          新建节点
         </el-button>
       </div>
     </el-card>
 
-    <!-- 节点列表 -->
     <el-card class="list-card">
-      <el-table :data="nodeList" v-loading="loading" stripe>
-        <el-table-column prop="id" label="ID" width="180" />
-        <el-table-column prop="name" label="节点名称" min-width="150" />
-        <el-table-column prop="nodeType" label="类型" width="120">
-          <template #default="{ row }">
-            <el-tag>{{ getNodeTypeLabel(row.nodeType) }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="description" label="描述" min-width="200" show-overflow-tooltip />
-        <el-table-column prop="relationCount" label="关联数" width="100" />
-        <el-table-column prop="sourceType" label="来源" width="100">
-          <template #default="{ row }">
-            <el-tag :type="row.sourceType === 'manual' ? 'info' : 'success'" size="small">
-              {{ row.sourceType === 'manual' ? '手动' : '抽取' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180" />
-        <el-table-column label="操作" width="200" fixed="right">
-          <template #default="{ row }">
-            <el-button type="primary" link @click="openEditDialog(row)">编辑</el-button>
-            <el-button type="info" link @click="viewInGraph(row)">查看图谱</el-button>
-            <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <AsyncState
+        v-if="showState"
+        :loading="loading"
+        :offline="!service.online"
+        :error="loadError"
+        :empty="!loading && !loadError && !nodeList.length"
+        empty-title="还没有节点"
+        empty-description="新建节点，或先从文档中抽取知识。"
+        error-title="节点列表没有加载成功"
+        @retry="retryLoad"
+      >
+        <template #action>
+          <el-button type="primary" :disabled="!service.online" @click="openCreateDialog">新建节点</el-button>
+        </template>
+      </AsyncState>
 
-      <!-- 分页 -->
-      <div class="pagination-wrapper">
-        <el-pagination
-          v-model:current-page="pagination.pageNum"
-          v-model:page-size="pagination.pageSize"
-          :total="pagination.total"
-          :page-sizes="[10, 20, 50, 100]"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="loadNodeList"
-          @current-change="loadNodeList"
-        />
-      </div>
+      <template v-else>
+        <el-table :data="nodeList">
+          <el-table-column prop="id" label="ID" width="140" show-overflow-tooltip />
+          <el-table-column prop="name" label="节点名称" min-width="130" />
+          <el-table-column prop="nodeType" label="类型" width="100">
+            <template #default="{ row }">
+              <el-tag>{{ getNodeTypeLabel(row.nodeType) }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="description" label="描述" min-width="140" show-overflow-tooltip />
+          <el-table-column prop="relationCount" label="关联数" width="76" />
+          <el-table-column prop="sourceType" label="来源" width="76">
+            <template #default="{ row }">
+              <StatusTag
+                :tone="row.sourceType === 'manual' ? 'info' : 'success'"
+                :label="row.sourceType === 'manual' ? '手动' : '抽取'"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="140" />
+          <el-table-column label="操作" width="156">
+            <template #default="{ row }">
+              <el-button type="primary" link :disabled="!service.online" @click="openEditDialog(row)">编辑</el-button>
+              <el-button type="info" link aria-label="查看图谱" @click="viewInGraph(row)">图谱</el-button>
+              <el-button type="danger" link :disabled="!service.online" @click="handleDelete(row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <div v-if="pagination.total > 0" class="pager">
+          <el-pagination
+            v-model:current-page="pagination.pageNum"
+            v-model:page-size="pagination.pageSize"
+            :total="pagination.total"
+            :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="loadNodeList"
+            @current-change="loadNodeList"
+          />
+        </div>
+      </template>
     </el-card>
 
-    <!-- 新建/编辑弹窗 -->
-    <el-dialog
-      v-model="dialogVisible"
-      :title="isEdit ? '编辑节点' : '新建节点'"
-      width="600px"
-      @close="resetForm"
-    >
+    <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑节点' : '新建节点'" width="600px" @close="resetForm">
       <el-form ref="formRef" :model="nodeForm" :rules="formRules" label-width="100px">
         <el-form-item label="节点名称" prop="name">
-          <el-input v-model="nodeForm.name" placeholder="如：阿里巴巴、张三、人工智能、北京" />
+          <el-input
+            v-model="nodeForm.name"
+            placeholder="如：阿里巴巴、张三、人工智能、北京"
+            :disabled="!service.online"
+          />
         </el-form-item>
         <el-form-item label="节点类型" prop="nodeType">
-          <el-select v-model="nodeForm.nodeType" placeholder="选择或输入类型" filterable allow-create>
+          <el-select
+            v-model="nodeForm.nodeType"
+            placeholder="选择或输入类型"
+            filterable
+            allow-create
+            :disabled="!service.online"
+            aria-label="节点类型"
+          >
             <el-option v-for="type in nodeTypes" :key="type.value" :label="type.label" :value="type.value" />
           </el-select>
         </el-form-item>
@@ -87,6 +117,7 @@
             type="textarea"
             :rows="4"
             placeholder="如：阿里巴巴集团是一家全球领先的互联网科技公司，于1999年创立"
+            :disabled="!service.online"
           />
         </el-form-item>
         <el-form-item label="扩展属性" prop="properties">
@@ -94,48 +125,43 @@
             v-model="nodeForm.properties"
             type="textarea"
             :rows="3"
-            placeholder='如：{"founded": "1999", "headquarters": "杭州", "industry": "互联网"}'
+            placeholder='如：{"founded": "1999", "headquarters": "杭州"}'
+            :disabled="!service.online"
           />
+          <p class="form-hint">可选。使用 JSON 保存额外字段；留空表示没有扩展属性。</p>
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm" :loading="submitting">确定</el-button>
+        <el-button type="primary" :loading="submitting" :disabled="!service.online" @click="submitForm">保存</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { nodeApi } from '@/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { nodeApi } from '@/api'
+import AsyncState from '@/components/AsyncState.vue'
+import StatusTag from '@/components/StatusTag.vue'
+import { useServiceStore } from '@/stores/service'
 
 const router = useRouter()
+const service = useServiceStore()
 
-// 数据
-const loading = ref(false)
+const loading = ref(true)
+const loadError = ref('')
 const submitting = ref(false)
 const nodeList = ref([])
 const nodeTypes = ref([])
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 
-// 搜索表单
-const searchForm = reactive({
-  keyword: '',
-  nodeType: ''
-})
+const searchForm = reactive({ keyword: '', nodeType: '' })
+const pagination = reactive({ pageNum: 1, pageSize: 10, total: 0 })
 
-// 分页
-const pagination = reactive({
-  pageNum: 1,
-  pageSize: 10,
-  total: 0
-})
-
-// 表单
 const formRef = ref(null)
 const nodeForm = reactive({
   id: null,
@@ -145,15 +171,16 @@ const nodeForm = reactive({
   properties: ''
 })
 
-// 表单校验规则
 const formRules = {
   name: [{ required: true, message: '请输入节点名称', trigger: 'blur' }],
   nodeType: [{ required: true, message: '请选择节点类型', trigger: 'change' }]
 }
 
-// 加载节点列表
+const showState = computed(() => loading.value || Boolean(loadError.value) || !nodeList.value.length)
+
 const loadNodeList = async () => {
   loading.value = true
+  loadError.value = ''
   try {
     const res = await nodeApi.list({
       pageNum: pagination.pageNum,
@@ -161,16 +188,26 @@ const loadNodeList = async () => {
       keyword: searchForm.keyword,
       nodeType: searchForm.nodeType
     })
-    nodeList.value = res.data.records
-    pagination.total = res.data.total
+    nodeList.value = res.data?.records || []
+    pagination.total = res.data?.total || 0
+    if (nodeList.value.length === 0 && pagination.total > 0 && pagination.pageNum > 1) {
+      pagination.pageNum = 1
+      await loadNodeList()
+    }
   } catch (error) {
-    console.error('加载节点列表失败:', error)
+    nodeList.value = []
+    pagination.total = 0
+    loadError.value = error.friendlyMessage || '节点列表没有加载成功'
   } finally {
     loading.value = false
   }
 }
 
-// 默认节点类型（中英文映射）
+const retryLoad = async () => {
+  await service.refresh()
+  if (service.online) await loadNodeList()
+}
+
 const defaultNodeTypes = [
   { label: '人物', value: 'Person' },
   { label: '组织/公司', value: 'Organization' },
@@ -183,48 +220,42 @@ const defaultNodeTypes = [
   { label: '其他', value: 'Other' }
 ]
 
-// 加载节点类型
 const loadNodeTypes = async () => {
   try {
     const res = await nodeApi.getTypes()
     const existingTypes = res.data || []
-    // 合并默认类型和已有类型
-    const typeSet = new Set(defaultNodeTypes.map(t => t.value))
+    const typeSet = new Set(defaultNodeTypes.map(item => item.value))
     const mergedTypes = [...defaultNodeTypes]
     existingTypes.forEach(type => {
       if (!typeSet.has(type)) {
-        // 未知类型直接显示英文
         mergedTypes.push({ label: type, value: type })
       }
     })
     nodeTypes.value = mergedTypes
   } catch (error) {
-    console.error('加载节点类型失败:', error)
     nodeTypes.value = defaultNodeTypes
   }
 }
 
-// 搜索
 const handleSearch = () => {
   pagination.pageNum = 1
   loadNodeList()
 }
 
-// 重置搜索
 const resetSearch = () => {
   searchForm.keyword = ''
   searchForm.nodeType = ''
   handleSearch()
 }
 
-// 打开新建弹窗
 const openCreateDialog = () => {
+  if (!service.online) return
   isEdit.value = false
   dialogVisible.value = true
 }
 
-// 打开编辑弹窗
 const openEditDialog = (row) => {
+  if (!service.online) return
   isEdit.value = true
   Object.assign(nodeForm, {
     id: row.id,
@@ -236,7 +267,6 @@ const openEditDialog = (row) => {
   dialogVisible.value = true
 }
 
-// 重置表单
 const resetForm = () => {
   nodeForm.id = null
   nodeForm.name = ''
@@ -246,85 +276,77 @@ const resetForm = () => {
   formRef.value?.resetFields()
 }
 
-// 提交表单
 const submitForm = async () => {
+  if (!service.online) return
   try {
     await formRef.value.validate()
     submitting.value = true
 
     if (isEdit.value) {
       await nodeApi.update(nodeForm.id, nodeForm)
-      ElMessage.success('更新成功')
+      ElMessage.success('节点已更新')
     } else {
       await nodeApi.create(nodeForm)
-      ElMessage.success('创建成功')
+      ElMessage.success('节点已创建')
     }
 
     dialogVisible.value = false
     loadNodeList()
   } catch (error) {
     if (error !== 'cancel') {
-      console.error('提交失败:', error)
+      ElMessage.error(error.friendlyMessage || '节点保存失败')
     }
   } finally {
     submitting.value = false
   }
 }
 
-// 删除节点
 const handleDelete = async (row) => {
+  if (!service.online) return
   try {
-    await ElMessageBox.confirm(`确定要删除节点"${row.name}"吗？相关的关系也会被删除。`, '提示', {
-      type: 'warning'
-    })
+    await ElMessageBox.confirm(
+      `删除节点「${row.name}」？与它相连的关系也会被删除。`,
+      '删除节点',
+      { type: 'warning', confirmButtonText: '删除', cancelButtonText: '取消' }
+    )
     await nodeApi.delete(row.id)
-    ElMessage.success('删除成功')
+    ElMessage.success('节点已删除')
     loadNodeList()
   } catch (error) {
     if (error !== 'cancel') {
-      console.error('删除失败:', error)
+      ElMessage.error(error.friendlyMessage || '节点删除失败')
     }
   }
 }
 
-// 在图谱中查看
 const viewInGraph = (row) => {
-  router.push({ path: '/', query: { keyword: row.name } })
+  router.push({ path: '/', query: { nodeId: row.id } })
 }
 
-// 获取节点类型中文标签
 const getNodeTypeLabel = (typeValue) => {
-  const found = defaultNodeTypes.find(t => t.value === typeValue)
+  const found = defaultNodeTypes.find(item => item.value === typeValue)
   return found ? found.label : typeValue
 }
 
-// 初始化
 onMounted(() => {
   loadNodeList()
   loadNodeTypes()
 })
 </script>
 
-<style lang="scss" scoped>
-.node-view {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+<style scoped lang="scss">
+.search-input {
+  width: 240px;
 }
 
-.toolbar-card {
-  .toolbar {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
+.type-select {
+  width: 150px;
 }
 
-.list-card {
-  .pagination-wrapper {
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-  }
+.form-hint {
+  margin-top: 6px;
+  color: var(--atlas-text-muted);
+  font-size: 12px;
+  line-height: 1.5;
 }
 </style>
